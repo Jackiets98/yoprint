@@ -32,7 +32,6 @@ class ProcessCsvUpload implements ShouldQueue
         try {
             $file = Storage::disk('public')->get($this->path);
 
-            // Stronger BOM removal
             $bom = pack('H*','EFBBBF');
             $file = preg_replace("/^$bom/", '', $file);
 
@@ -43,7 +42,7 @@ class ProcessCsvUpload implements ShouldQueue
             $header = array_map('trim', array_shift($rows));
             
             // Debug logs
-            Log::debug('Parsed CSV file content:', ['file' => substr($file, 0, 200)]); // log preview only
+            Log::debug('Parsed CSV file content:', ['file' => substr($file, 0, 200)]); 
             Log::debug('Upload ID', ['upload' => $upload]);
             
 
