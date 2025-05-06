@@ -34,9 +34,10 @@ class UploadController extends Controller
             ]
         );
 
-        $path = $file->storeAs('uploads', $hash . '_' . $filename, 'public');
+        $file->storeAs('uploads', $hash . '_' . $filename, 'public');
+        ProcessCsvUpload::dispatch($upload->id, 'uploads/' . $hash . '_' . $filename);
 
-        ProcessCsvUpload::dispatch($upload->id, $path);
+        ProcessCsvUpload::dispatch($upload->id, 'uploads/' . $upload->path);
 
         return back()->with('success', 'File uploaded and processing started.');
     }
